@@ -1,11 +1,10 @@
 # Edit this configuration file to define what should be installed on your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, lib, pkgs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
-    <nixos-hardware/system76>
+      <nixos-hardware/system76>
       ./hardware-configuration.nix
     ];
 
@@ -14,7 +13,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -57,7 +56,7 @@
   users.users.konradkon = {
     isNormalUser = true;
     description = "Konrad Konieczny";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "input" ];
 
     # WIP PACKAGES
     packages = with pkgs; [
@@ -143,7 +142,6 @@
     swaylock
     brightnessctl
     nvtopPackages.nvidia
-    cudaPackages.cudatoolkit
   ];
 
   # === WIP PROGRAMS ENABLE
@@ -253,7 +251,7 @@
 
     open = true;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
 
     prime = {
       offload = {
